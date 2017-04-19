@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Map</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.0.1/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.0.1/build/ol.js"></script>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+	<button id="store-data">Processed</button>
+    <script>
+    
+	 var vectorSource = new ol.source.Vector({
+        url: '/data/layers/borders1.geojson',
+        format: new ol.format.GeoJSON()
+      });
+	  
+      var map = new ol.Map({
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          }),
+		  new ol.layer.Vector({
+            source: vectorSource
+          })
+        ],
+        target: 'map',
+        view: new ol.View({
+          center: ol.proj.fromLonLat([4.8, 47.75]),
+          zoom: 5
+        })
+      });
+	  
+	  // a normal select interaction to handle click
+      var select = new ol.interaction.Select();
+      map.addInteraction(select);
+	  
+	//button that changes 0 to 1  
+	var PushButton = document.getElementById('store-data');
+	PushButton.addEventListener('click', function(){
+	  if(select){
+		//code that changes value from 0 to 1
+  
+	  }else {
+         window.alert("You have not selected anything");
+        }
+	 });
+   
+   //code for saving edited data
+	  
+    </script>
+  </body>
+</html>
