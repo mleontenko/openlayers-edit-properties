@@ -42,6 +42,11 @@
 	PushButton.addEventListener('click', function(){
 	  if(select){
 		//code that changes value from 0 to 1
+		elect.getFeatures().item(0).set('processed', 1);
+		var features = select.getFeatures();
+		var feature = features.item(0);
+       	        var id = feature.get("processed");
+		console.log(id);
   
 	  }else {
          window.alert("You have not selected anything");
