@@ -3,6 +3,12 @@
   <head>
     <title>Map</title>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.0.1/css/ol.css" type="text/css">
+	<style>
+      #map {
+        height: 600px;
+        width: 900px;
+      }
+    </style>
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.0.1/build/ol.js"></script>
@@ -10,8 +16,9 @@
   <body>
     <div id="map" class="map"></div>
 	<button id="store-data">Processed</button>
+	<div id="demo"></div>
     <script>
-    
+	
 	 var vectorSource = new ol.source.Vector({
         url: 'https://raw.githubusercontent.com/mleontenko/openlayers-edit-properties/master/borders1.geojson',
         format: new ol.format.GeoJSON()
@@ -33,28 +40,31 @@
         })
       });
 	  
-	  // a normal select interaction to handle click
+	  //a normal select interaction to handle click
       var select = new ol.interaction.Select();
       map.addInteraction(select);
 	  
-	//button that changes 0 to 1  
+	//button for changing property value
 	var PushButton = document.getElementById('store-data');
 	PushButton.addEventListener('click', function(){
 	  if(select){
-		//code that changes value from 0 to 1
-		elect.getFeatures().item(0).set('processed', 1);
-		var features = select.getFeatures();
-		var feature = features.item(0);
-       	        var id = feature.get("processed");
-		console.log(id);
-  
+		//change "processed" property value from 0 to 1
+	    select.getFeatures().item(0).set('processed', 1);
+		
+		//store geojson to variable for export 
+		var writer = new ol.format.GeoJSON();
+		var geojsonStr = writer.writeFeatures(vectorSource.getFeatures());
+		
+		//print geojson to "demo" div(for debugging)
+		document.getElementById("demo").innerHTML = geojsonStr;
+		
 	  }else {
          window.alert("You have not selected anything");
         }
 	 });
-   
-   //code for saving edited data
 	  
+	  
+	 
     </script>
   </body>
 </html>
